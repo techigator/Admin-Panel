@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'mongodb'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +34,19 @@ return [
     */
 
     'connections' => [
+
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'dsn'      => env('MONGODB_CONNECTION_STRING'),
+            'host'     => env('MONGODB_HOST', 'localhost'),
+            'port'     => env('MONGODB_PORT', 27017),
+            'database' => env('MONGODB_DATABASE', 'admin_panel'),
+            'username' => env('MONGODB_USERNAME', 'makmuhammadadil'),
+            'password' => env('MONGODB_PASSWORD', 'e7glHzVnwq0rGtw6'),
+            'options'  => [
+                'database' => env('MONGODB_AUTH_DATABASE', 'admin'),
+            ],
+        ],
 
         'sqlite' => [
             'driver' => 'sqlite',
