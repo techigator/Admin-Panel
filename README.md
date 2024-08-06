@@ -13,6 +13,7 @@ MongoDB Server
 MongoDB PHP Extension
 MongoDB Shell (optional)
 Installation and Configuration
+
 - Install MongoDB Server
 - Install MongoDB PHP Extension
 - Install MongoDB Driver
@@ -23,6 +24,7 @@ composer require mongodb/mongodb
   ```
 
 Ensure the MongoDB extension is enabled in your PHP configuration (php.ini):
+
   ```
 extension=mongodb
   ```
