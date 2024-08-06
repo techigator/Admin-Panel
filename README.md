@@ -18,16 +18,15 @@ Installation and Configuration
 - Install MongoDB PHP Extension
 - Install MongoDB Driver
 
-
-  ```
+```
 composer require mongodb/mongodb
-  ```
+```
 
 Ensure the MongoDB extension is enabled in your PHP configuration (php.ini):
 
-  ```
+```
 extension=mongodb
-  ```
+```
 
 # Configure Laravel for MongoDB
 Update Database Configuration
@@ -63,30 +62,32 @@ Add a MongoDB connection configuration in the connections array:
   ```
 # MongoDB Shell (mongosh)
 - Download and Install MongoDB Shell
-   Visit the MongoDB Shell Download Page and download the appropriate version for Windows.
-   Install it in your preferred location.
+  Visit the MongoDB Shell Download Page and download the appropriate version for Windows.
+  Install it in your preferred location.
 - Add mongosh to System Path
-   Navigate to the installation directory, e.g.,
+  Navigate to the installation directory, e.g.,
 
-
-  ```
+```
 C:\Users\YourUsername\AppData\Local\Programs\mongosh.
-  ```
+```
+
 Copy the path.
 Add it to the system's PATH environment variable:
-  ```
+
+```
 Right-click on "This PC" or "Computer" on the desktop or in File Explorer.
 Click "Properties" > "Advanced system settings".
 Click "Environment Variables".
 Under "System variables", find the Path variable and click "Edit".
 Click "New" and paste the path.
-  ```
+```
 
 ## Running MongoDB Shell
 Path to MongoDB Shell:
-  ```
+
+```
 C:\Users\Usman Ghani\AppData\Local\Programs\mongosh\
-  ```
+```
 Open a command prompt and type or check:
   ```
 mongosh
@@ -102,42 +103,68 @@ mongosh "mongodb+srv://username:password@cluster0.ctdbgu1.mongodb.net/database"
 Create or edit a configuration file (mongod.conf) if you want to customize settings.
 
 configuration file path:
-  ```
+
+```
 C:\Program Files\MongoDB\Server\7.0\
-  ```
+```
 
 Example configuration:
-  ```
-    systemLog:
-      destination: file
-      path: C:\Program Files\MongoDB\Server\7.0\log\mongod.log
-      logAppend: true
-    storage:
-      dbPath: C:\Program Files\MongoDB\Server\7.
-    security:
-      authorization: "enabled"
-  ```
+```
+systemLog:
+  destination: file
+  path: C:\Program Files\MongoDB\Server\7.0\log\mongod.log
+  logAppend: true
+
+storage:
+  dbPath: C:\Program Files\MongoDB\Server\7.
+
+security:
+  authorization: "enabled"
+```
 
 ### Start MongoDB with the configuration file:
 
 Open Command Prompt With Administrator And
 Run This Command:
-  ```
+
+```
 net start MongoDB
-  ```
+```
+# Seeder
+- Create `Admin` Seeder and paste the following code respectively
+```
+    $client = new MongoDBClient(env('MONGODB_CONNECTION_STRING'));
+    $collection = $client->selectCollection('admin_panel', 'users');
+
+    $result = $collection->insertOne([
+         'name' => 'Admin',
+         'email' => 'admin@panel.com',
+         'role_id' => 1,
+         'password' => Hash::make('admin!@#'),
+         'created_at' => new UTCDateTime(),
+         'updated_at' => new UTCDateTime()
+    ]);
+
+    echo "Inserted with Object ID '{$result->getInsertedId()}'";
+```
+
+- Now define your seeders in `seeders/DatabaseSeeder.php`
+```
+    $this->call(AdminSeeder::class);
+```
 
 # Migrations and Models
 Use the Laravel MongoDB package if you need MongoDB-specific functionality in your migrations and models.
 
 ##### Install the package via Composer:
 
-  ```
+```
 composer require mongodb/laravel-mongodb
-  ```
+```
 
 ## Migration
 
-  ```
+```
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -170,10 +197,10 @@ return new class extends Migration
         Schema::connection('mongodb')->drop('users');
     }
 };
-  ```
+```
 ## Model
 
-  ```
+```
 <?php
 
 namespace App\Models;
@@ -220,5 +247,4 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 }
-  ```
-
+```
